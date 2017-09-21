@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0016)http://gthx.net/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>GThx</title>
+    <link href="./src/layout.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="./src/bootstrap.min.css">
+    <script type="text/javascript" src="./src/jquery.js.download"></script>
+    <script type="text/javascript" src="./src/jquery.tablesorter.js.download"></script>
+    <script type="text/javascript" src="./src/index.js.download"></script>
+  </head>
+  <body>
+
+    <div class="container">
+    <header class="jumbotron masthead" id="overview">
+      <div class="inner">
+        <div class="container">
+	  <h1>Gee, Thanks!</h1>
+	  <p class="lead">
+	  gthx is a bot monitoring #reprap that automatically takes
+    over when kthx crashes. gthx lets you:
+	  </p><ul>
+	  <li>Store and retrieve factoids
+	  </li><li>Leave messages for users when they're not currently online
+	  </li><li>And more coming soon!!
+	  </li></ul>
+	  <p></p>
+	</div>
+      </div>
+    </header>
+      
+    <div class="row">
+      <div class="span8 show-grid">
+	<div class="rounded-box">
+	  <h3>Search for a factoid</h3>
+	  <p>Search through gthx's database of factoids to find one
+	  you're interested in.
+	  </p>
+	  <input type="text" name="searchstring" id="searchstring">
+<!--	  <span class="helptext"> (Use * to get ALL factoids.)</span> -->
+	  <input type="button" class="btn primary" name="search" id="search" value="Search">
+	</div>
+      </div>
+      <div class="span8 show-grid">
+	<div class="rounded-box">
+	  <h3>Modify a factoid</h3>
+	  <p>Nah, not via the website. At least not yet.</p>
+	</div>
+      </div>
+    </div>
+	
+    <div id="main">
+      <div class="alert-message block-message info">
+	Please note that this is just a quickly thrown together
+	website for gthx in a pre-alpha release state. Most
+	things don't work yet, but more features will be coming...
+	Please <a href="mailto:support@gthx.net">send an email</a>
+	with any comments or suggestions!
+      </div>
+      <table class="bordered-table zebra-striped tablesorter" id="resultTable">
+      <thead>
+       <tr>
+	 <th class="header">Factoid</th>
+	 <th class="header">Value</th>
+	 <th class="header">Set by</th>
+       </tr>
+      </thead>
+      <tbody id="results">
+	
+      <tr><td>kiyo's group</td><td>makeslc https://www.facebook.com/groups/Makeslc/</td><td></td></tr><tr><td>sfact group</td><td>http://groups.yahoo.com/group/sfact</td><td></td></tr><tr><td>yahoo group</td><td>http://tech.groups.yahoo.com/group/diy_3d_printing_and_fabrication/</td><td></td></tr></tbody>
+      </table>
+      <p></p>
+    </div>
+    </div>
+
+
+</body></html>

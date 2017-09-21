@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>GThx</title>
+    <link href="./layout.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script type="text/javascript" src="/jquery.js"></script>
+    <script type="text/javascript" src="/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="/index.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.117.0.min.js"></script>
+
+    <script>
+      // ****** FIX THIS!!!
+ /*      AWS.config.update({
+        region: "us-west-1",
+        endpoint: 'http://dynamodb.us-west-1.amazonaws.com',
+        // accessKeyId default can be used while using the downloadable version of DynamoDB.
+        // For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
+        accessKeyId: "AKIAIR7AEY62YALDC5EA",
+        // secretAccessKey default can be used while using the downloadable version of DynamoDB.
+        // For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
+        secretAccessKey: "qBgijfcu+BsmBLHxl5bJbi17wBwpzYA1hcR7Ov0b"
+      });
+   */
+        var docClient = new AWS.DynamoDB.DocumentClient();
+
+        function queryData(houseId) {
+          document.getElementById('textarea').innerHTML += "Querying for records:";
+          document.getElementById('errorarea').innerHTML = "";
+          document.getElementById('errorarea').hidden = true;
+
+          var params = {
+            TableName: "Vod-dev",
+            KeyConditionExpression: "houseId = :id",
+            ExpressionAttributeValues: {
+              ":id": houseId
+            }
+          };
+
+          docClient.query(params, function (err, data) {
+            if (err) {
+              document.getElementById('errorarea').innerHTML += "Unable to query. Error: " + "\n" + JSON.stringify(err, undefined, 2);
+              document.getElementById('errorarea').hidden = false;
+            } else {
+              document.getElementById('textarea').innerHTML += "\n" + JSON.stringify(data, undefined, 2);
+            }
+          });
+        }
+
+        function scanData() {
+          document.getElementById('textarea').innerHTML += "Scanning table." + "\n";
+
+          // put this in a config!
+          var params = {
+            TableName: "Vod-dev",
+          };
+
+          // clear the text pad
+          document.getElementById('errorarea').innerHTML = "";
+          document.getElementById('errorarea').hidden = true;
+
+          docClient.scan(params, onScan);
+
+          function onScan(err, data) {
+            if (err) {
+              document.getElementById('errorarea').innerHTML += "Unable to scan the table: " + "\n" + JSON.stringify(err, undefined, 2);
+              document.getElementById('errorarea').hidden = false;
+            } else {
+              // get all the records
+              document.getElementById('textarea').innerHTML = data.Items;
+            }
+
+            // this clause needs work - it needs to append to the previous set of data or to the table directly
+            // 
+            if (data.LastEvaluatedKey) {
+              // Continue scanning if we have more records (per scan 1MB limitation)
+              document.getElementById('textarea').innerHTML += "Scanning for more..." + "\n";
+              params.ExclusiveStartKey = data.LastEvaluatedKey;
+              docClient.scan(params, onScan);
+            }
+          }
+        }
+      </script>
+  </head>
+  <body>
+<div class="container">
+  <!--header class="jumbotron masthead" id="overview">
+      <div class="inner">
+        <div class="container">
+	  <h1>Gee, Thanks!</h1>
+	  <p class="lead">
+	  gthx is a bot monitoring #reprap that automatically takes
+    over when kthx crashes. gthx lets you:
+	  <ul>
+	  <li>Store and retrieve factoids
+	  <li>Leave messages for users when they're not currently online
+	  <li>And more coming soon!!
+	  </ul>
+	  </p>
+	</div>
+      </div>
+    </header-->
+  <p/>
+  <div class="row">
+    <div>
+      <p/>
+      <!--      <div class="span8 show-grid">
+	<div class="rounded-box"> -->
+      <!-- 	  <h3>Search for a factoid</h3>
+	  <p>Search through gthx's database of factoids to find one
+	  you're interested in.
+	  </p>
+ -->
+
+      <!--	  <input type="text" name="searchstring" id="searchstring"> -->
+      <!--	  <span class="helptext"> (Use * to get ALL factoids.)</span> -->
+      <input type="button" class="btn primary" name="search" id="search" value="Refresh">
+    </div>
+    <!-- 	</div>
+      </div>
+ -->
+  </div>
+
+  <div id="main">
+    <div class="alert-message block-message info" id="errorarea" hidden="true"></div>
+    <div class="alert-message block-message info" id="textarea" hidden="true"></div>
+    <table class="bordered-table zebra-striped tablesorter" id="resultTable">
+      <thead>
+        <tr>
+          <th>House ID</th>
+          <th>Title</th>
+          <!-- <th>Type</th>  // maybe later-->
+          <th>Created Date</th>
+          <th>Last Updated</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="results">
+        <tr class="loading">
+          <td colspan="2">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p></p>
+  </div>
+</div>
+</body>
+
+</html>
